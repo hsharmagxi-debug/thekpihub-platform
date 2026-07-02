@@ -1,0 +1,40 @@
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.HOSTINGER_SSH_KEY }}" > ~/.ssh/hostinger_key
+          chmod 600 ~/.ssh/hostinger_key
+          ssh-keyscan -H ${{ secrets.HOSTINGER_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to Hostinger
+        run: |
+          ssh -i ~/.ssh/hostinger_key ${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }} "
+            cd ${{ secrets.HOSTINGER_PATH }} && \
+            git fetch origin && \
+            git checkout main && \
+            git pull origin main && \
+            echo 'Deployment successful!'
+          "
+
+      - name: Notify deployment
+        if: success()
+        run: echo "✓ Successfully deployed to Hostinger"
+
+      - name: Notify failure
+        if: failure()
+        run: echo "✗ Deployment failed - check SSH credentials and Hostinger setup"
