@@ -1,0 +1,50 @@
+Website Source Consolidation Log
+Timestamp: 2026-06-01 18:14:57
+Source: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website
+Destination: C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source
+
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\.git -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\.git
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\.github -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\.github
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\reports -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\reports
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\.env.example -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\.env.example
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\.gitignore -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\.gitignore
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\about.html -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\about.html
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\add_ga4.py -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\add_ga4.py
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\admin-login.html -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\admin-login.html
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\AGENT_CONTEXT.md -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\AGENT_CONTEXT.md
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\AGENT_LOG.md -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\AGENT_LOG.md
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\AGENT_TASKS.md -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\AGENT_TASKS.md
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\auditor.html -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\auditor.html
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\benchmarks.html -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\benchmarks.html
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\CHANGES.md -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\CHANGES.md
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\CLAUDE.md -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\CLAUDE.md
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\CNAME -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\CNAME
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\cohort.html -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\cohort.html
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\contact.html -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\contact.html
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\cookies.html -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\cookies.html
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\dashboard.html -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\dashboard.html
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\DEPLOYMENT_REPORT.md -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\DEPLOYMENT_REPORT.md
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\directory.html -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\directory.html
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\freedom.html -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\freedom.html
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\index.html -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\index.html
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\india-benchmarks.html -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\india-benchmarks.html
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\intelligence.html -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\intelligence.html
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\login.html -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\login.html
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\MONETIZATION_BLUEPRINT.md -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\MONETIZATION_BLUEPRINT.md
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\narrative.html -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\narrative.html
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\pipeline.py -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\pipeline.py
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\pricing.html -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\pricing.html
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\privacy.html -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\privacy.html
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\README.md -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\README.md
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\requirements.txt -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\requirements.txt
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\robots.txt -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\robots.txt
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\sitemap.xml -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\sitemap.xml
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\stack-scorer.html -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\stack-scorer.html
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\terms.html -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\terms.html
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\today.html -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\today.html
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\validator.html -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\validator.html
+MOVED: C:\Users\Admin\OneDrive\Documents\GitHub\thekpihub-website\VERIFICATION_REPORT.md -> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source\VERIFICATION_REPORT.md
+
+Summary
+Moved: 41
+Skipped: 0

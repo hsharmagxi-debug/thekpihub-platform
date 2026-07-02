@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The KPI Hub — Decision-Grade Intelligence. Zero Fluff.</title>
+<meta name="description" content="The world's most powerful AI-native SaaS intelligence platform. Real-time KPI tracking, AI benchmarks, board narratives, and competitor signal mining."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ============================================================
+   THE KPI HUB — FULL UPGRADED LANDING PAGE
+   Design System: Deep Navy + Gold + Automation-Forward
+   ============================================================ */
+:root {
+  --bg: #020309;
+  --bg2: #04050F;
+  --card: #080A1C;
+  --card2: #0C0E28;
+  --border: #111430;
+  --border2: #1A1E48;
+  --gold: #E9A123;
+  --gold2: #F5C842;
+  --gold-faint: rgba(233,161,35,0.06);
+  --gold-glow: rgba(233,161,35,0.15);
+  --gold-glow2: rgba(233,161,35,0.3);
+  --teal: #00D4A0;
+  --teal-faint: rgba(0,212,160,0.07);
+  --red: #FF4455;
+  --blue: #3B7EFF;
+  --purple: #8B5CF6;
+  --text: #E8EAF6;
+  --text2: #8A8EB8;
+  --muted: #444870;
+  --fd: 'Cormorant Garamond', Georgia, serif;
+  --fb: 'DM Sans', system-ui, sans-serif;
+  --fm: 'DM Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--fb);
+  overflow-x: hidden;
+}
+
+/* NOISE */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+/* CUSTOM CURSOR */
+.k-cursor { width:8px; height:8px; background:var(--gold); border-radius:50%; position:fixed; top:0; left:0; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); mix-blend-mode:screen; transition:transform 0.15s, width 0.2s, height 0.2s; }
+.k-cursor-ring { width:32px; height:32px; border:1px solid rgba(233,161,35,0.35); border-radius:50%; position:fixed; top:0; left:0; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:left 0.15s ease, top 0.15s ease, width 0.2s, height 0.2s; }
+
+/* NAV */
+.k-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 56px;
+  background: rgba(2,3,9,0.75);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(233,161,35,0.07);
+  transition: all 0.3s;
+}
+.k-nav.scrolled { padding: 12px 56px; background: rgba(2,3,9,0.96); border-bottom-color: var(--border); }
+.k-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+.k-logo-icon { width:34px; height:34px; border-radius:8px; background:linear-gradient(135deg,var(--gold),#A06010); display:flex; align-items:center; justify-content:center; font-family:var(--fd); font-size:17px; font-weight:700; color:#000; box-shadow:0 0 18px var(--gold-glow); }
+.k-logo-text { font-family:var(--fd); font-size:16px; font-weight:700; color:var(--text); letter-spacing:0.02em; }
+.k-nav-links { display:flex; align-items:center; gap:28px; list-style:none; }
+.k-nav-links a { color:var(--muted); text-decoration:none; font-size:13px; font-weight:500; letter-spacing:0.03em; transition:color 0.2s; }
+.k-nav-links a:hover { color:var(--gold); }
+.k-nav-right { display:flex; align-items:center; gap:10px; }
+.k-btn-ghost { background:transparent; border:1px solid var(--border2); color:var(--text2); padding:8px 18px; border-radius:7px; font-family:var(--fb); font-size:13px; font-weight:600; cursor:pointer; transition:all 0.2s; text-decoration:none; }
+.k-btn-ghost:hover { border-color:var(--gold); color:var(--gold); background:var(--gold-faint); }
+.k-btn-gold { background:linear-gradient(135deg,var(--gold),#B07010); color:#000; padding:8px 20px; border-radius:7px; font-family:var(--fb); font-size:13px; font-weight:800; cursor:pointer; border:none; transition:all 0.25s; text-decoration:none; box-shadow:0 0 18px var(--gold-glow); }
+.k-btn-gold:hover { transform:translateY(-1px); box-shadow:0 4px 28px var(--gold-glow2); }
+
+/* STATUS BAR */
+.k-status-bar {
+  position: fixed; top: 65px; left: 50%; transform: translateX(-50%);
+  z-index: 499;
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(2,3,9,0.9); border: 1px solid rgba(0,212,160,0.2);
+  border-radius: 100px; padding: 5px 16px;
+  font-family: var(--fm); font-size: 10px; color: var(--teal);
+  letter-spacing: 0.06em; backdrop-filter: blur(12px);
+  animation: fadeDown 1s 1s ease both;
+}
+.status-pulse { width:6px; height:6px; border-radius:50%; background:var(--teal); animation:blink 1.8s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+@keyframes fadeDown { from{opacity:0;transform:translateX(-50%) translateY(-8px);} to{opacity:1;transform:translateX(-50%) translateY(0);} }
+
+/* HERO */
+.k-hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 140px 56px 80px;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.k-hero-canvas { position:absolute; inset:0; z-index:0; }
+
+/* DATA GRID */
+.k-grid-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background-image: linear-gradient(rgba(233,161,35,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(233,161,35,0.03) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* ORBS */
+.k-orb { position:absolute; border-radius:50%; filter:blur(90px); pointer-events:none; z-index:0; }
+.k-orb1 { width:700px; height:700px; top:-250px; left:-200px; background:radial-gradient(circle,rgba(233,161,35,0.1),transparent 70%); animation:orbFloat1 12s ease-in-out infinite; }
+.k-orb2 { width:550px; height:550px; bottom:-180px; right:-150px; background:radial-gradient(circle,rgba(59,126,255,0.09),transparent 70%); animation:orbFloat2 15s ease-in-out infinite; }
+.k-orb3 { width:400px; height:400px; top:40%; left:50%; transform:translateX(-50%); background:radial-gradient(circle,rgba(0,212,160,0.05),transparent 70%); animation:orbFloat3 10s ease-in-out infinite; }
+@keyframes orbFloat1 { 0%,100%{transform:translate(0,0);} 50%{transform:translate(40px,-30px);} }
+@keyframes orbFloat2 { 0%,100%{transform:translate(0,0);} 50%{transform:translate(-30px,40px);} }
+@keyframes orbFloat3 { 0%,100%{transform:translateX(-50%) translateY(0);} 50%{transform:translateX(-50%) translateY(-20px);} }
+
+.k-eyebrow {
+  display:inline-flex; align-items:center; gap:8px; position:relative; z-index:1;
+  background:var(--gold-faint); border:1px solid rgba(233,161,35,0.18);
+  border-radius:100px; padding:5px 16px;
+  font-family:var(--fm); font-size:10px; color:var(--gold);
+  letter-spacing:0.12em; text-transform:uppercase; margin-bottom:28px;
+  animation:fadeUp 0.9s ease both;
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(18px);} to{opacity:1;transform:translateY(0);} }
+
+.k-hero-title {
+  font-family: var(--fd);
+  font-size: clamp(50px, 7.5vw, 100px);
+  font-weight: 700; line-height: 1.03; color: var(--text);
+  max-width: 920px; position: relative; z-index: 1;
+  animation: fadeUp 0.9s 0.1s ease both;
+}
+.k-hero-title .k-italic { font-style: italic; }
+.k-hero-title .k-gradient {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold2) 50%, var(--gold) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+@keyframes shimmer { 0%{background-position:0%;} 100%{background-position:200%;} }
+
+.k-typewriter {
+  display: inline-block; border-right: 2px solid var(--gold);
+  animation: cursor-blink 0.8s step-end infinite;
+  padding-right: 3px;
+}
+@keyframes cursor-blink { 0%,100%{border-color:var(--gold);} 50%{border-color:transparent;} }
+
+.k-hero-sub {
+  font-size: 18px; color: var(--text2); max-width: 560px;
+  line-height: 1.75; margin: 24px 0 38px;
+  position: relative; z-index: 1; font-weight: 400;
+  animation: fadeUp 0.9s 0.2s ease both;
+}
+
+.k-hero-actions {
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap; justify-content:center;
+  position:relative; z-index:1;
+  animation:fadeUp 0.9s 0.3s ease both;
+}
+.k-btn-hero {
+  background:linear-gradient(135deg,var(--gold),#B07010); color:#000;
+  padding:15px 34px; border-radius:10px;
+  font-family:var(--fb); font-size:15px; font-weight:800;
+  cursor:pointer; border:none; transition:all 0.25s;
+  text-decoration:none; display:inline-flex; align-items:center; gap:9px;
+  box-shadow:0 0 40px var(--gold-glow), 0 4px 24px rgba(0,0,0,0.5);
+  letter-spacing:0.01em;
+}
+.k-btn-hero:hover { transform:translateY(-2px); box-shadow:0 0 60px var(--gold-glow2), 0 8px 32px rgba(0,0,0,0.6); }
+.k-btn-outline {
+  background:transparent; border:1px solid var(--border2);
+  color:var(--text2); padding:15px 28px; border-radius:10px;
+  font-family:var(--fb); font-size:15px; font-weight:600;
+  cursor:pointer; transition:all 0.2s; text-decoration:none;
+  display:inline-flex; align-items:center; gap:9px;
+}
+.k-btn-outline:hover { border-color:var(--gold); color:var(--gold); background:var(--gold-faint); }
+
+.k-trust-row {
+  display:flex; align-items:center; gap:20px; flex-wrap:wrap; justify-content:center;
+  margin-top:40px; position:relative; z-index:1;
+  animation:fadeUp 0.9s 0.4s ease both;
+}
+.k-trust-item { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--muted); font-family:var(--fm); }
+.k-trust-item .k-chk { color:var(--teal); }
+.k-trust-div { width:1px; height:14px; background:var(--border2); }
+
+/* LIVE TERMINAL */
+.k-terminal-wrap {
+  position:relative; z-index:1; margin-top:68px; width:100%;
+  max-width:860px; animation:fadeUp 0.9s 0.5s ease both;
+}
+.k-terminal {
+  background:rgba(8,10,28,0.9); border:1px solid var(--border2);
+  border-radius:14px; overflow:hidden;
+  box-shadow:0 0 60px rgba(0,0,0,0.6), 0 0 30px var(--gold-glow);
+}
+.k-terminal-bar {
+  display:flex; align-items:center; gap:8px; padding:12px 18px;
+  background:rgba(4,5,15,0.8); border-bottom:1px solid var(--border);
+}
+.k-dot { width:10px; height:10px; border-radius:50%; }
+.k-dot-r { background:#FF5F57; } .k-dot-y { background:#FFBD2E; } .k-dot-g { background:#28CA42; }
+.k-terminal-title { font-family:var(--fm); font-size:11px; color:var(--muted); margin-left:8px; }
+.k-terminal-status { margin-left:auto; display:flex; align-items:center; gap:6px; font-family:var(--fm); font-size:10px; color:var(--teal); }
+.k-terminal-body { padding:20px 24px; min-height:160px; font-family:var(--fm); font-size:12px; line-height:1.8; }
+.k-line { display:flex; gap:12px; margin-bottom:2px; opacity:0; animation:lineIn 0.3s ease forwards; }
+.k-line-prompt { color:var(--gold); flex-shrink:0; }
+.k-line-cmd { color:#7FDBFF; }
+.k-line-out { color:var(--text2); }
+.k-line-ok { color:var(--teal); }
+.k-line-warn { color:var(--gold); }
+.k-line-data { color:#C778DD; }
+@keyframes lineIn { to{opacity:1;} }
+
+/* TICKER */
+.k-ticker-section { position:relative; z-index:1; margin-top:60px; width:100%; animation:fadeUp 0.9s 0.6s ease both; }
+.k-ticker-label { font-family:var(--fm); font-size:10px; color:var(--muted); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:8px; justify-content:center; }
+.k-live-dot { width:6px; height:6px; border-radius:50%; background:var(--teal); animation:blink 1.5s infinite; }
+.k-ticker-track { display:flex; overflow:hidden; mask-image:linear-gradient(90deg,transparent,black 8%,black 92%,transparent); }
+.k-ticker-scroll { display:flex; gap:10px; animation:kscroll 28s linear infinite; flex-shrink:0; }
+@keyframes kscroll { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
+.k-pill {
+  display:flex; align-items:center; gap:10px; flex-shrink:0;
+  background:var(--card); border:1px solid var(--border);
+  border-radius:9px; padding:10px 16px; cursor:default;
+  transition:border-color 0.2s, transform 0.2s;
+}
+.k-pill:hover { border-color:rgba(233,161,35,0.3); transform:translateY(-2px); }
+.k-pill-label { font-family:var(--fm); font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:0.07em; }
+.k-pill-val { font-family:var(--fd); font-size:17px; font-weight:700; color:var(--text); }
+.k-pill-delta { font-family:var(--fm); font-size:11px; font-weight:600; }
+.k-up { color:var(--teal); } .k-warn { color:var(--gold); }
+
+/* PROOF BAR */
+.k-proof {
+  border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+  padding:32px 56px; background:var(--bg2);
+  display:flex; align-items:center; justify-content:center; gap:56px; flex-wrap:wrap;
+}
+.k-proof-item { text-align:center; }
+.k-proof-num {
+  font-family:var(--fd); font-size:40px; font-weight:700; line-height:1;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.k-proof-lbl { font-size:11px; color:var(--muted); font-family:var(--fm); margin-top:4px; letter-spacing:0.06em; }
+.k-proof-div { width:1px; height:44px; background:var(--border2); }
+
+/* PIPELINE */
+.k-pipeline-section { padding:110px 56px; max-width:1200px; margin:0 auto; }
+.k-section-eye { font-family:var(--fm); font-size:11px; color:var(--gold); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+.k-section-eye::before { content:''; width:24px; height:1px; background:var(--gold); }
+.k-section-title { font-family:var(--fd); font-size:clamp(34px,4.5vw,60px); font-weight:700; line-height:1.1; color:var(--text); max-width:720px; margin-bottom:60px; }
+.k-section-title .k-acc { background:linear-gradient(135deg,var(--gold),var(--gold2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+.k-pipeline {
+  display:grid; grid-template-columns:1fr auto 1fr auto 1fr; align-items:center; gap:0;
+  background:var(--card); border:1px solid var(--border); border-radius:18px; overflow:hidden;
+}
+.k-pipe-step { padding:44px 36px; position:relative; }
+.k-pipe-step::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--gold-glow),transparent); opacity:0; transition:opacity 0.3s; }
+.k-pipe-step:hover::before { opacity:1; }
+.k-pipe-num { font-family:var(--fm); font-size:11px; color:var(--muted); letter-spacing:0.1em; margin-bottom:12px; }
+.k-pipe-icon { font-size:28px; margin-bottom:16px; }
+.k-pipe-name { font-family:var(--fd); font-size:26px; font-weight:700; color:var(--text); margin-bottom:10px; }
+.k-pipe-desc { font-size:13px; color:var(--text2); line-height:1.7; }
+.k-pipe-tag { display:inline-block; margin-top:16px; font-family:var(--fm); font-size:10px; padding:3px 10px; border-radius:100px; }
+.k-tag-auto { background:rgba(0,212,160,0.1); color:var(--teal); border:1px solid rgba(0,212,160,0.2); }
+.k-tag-ai { background:rgba(139,92,246,0.1); color:var(--purple); border:1px solid rgba(139,92,246,0.2); }
+.k-tag-live { background:rgba(233,161,35,0.1); color:var(--gold); border:1px solid rgba(233,161,35,0.2); }
+
+.k-pipe-arrow {
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  padding:0 8px;
+}
+.k-arrow-line { width:2px; height:40px; background:linear-gradient(180deg,transparent,var(--border2),transparent); }
+.k-arrow-head { color:var(--gold); font-size:16px; animation:pulse-arrow 2s ease-in-out infinite; }
+@keyframes pulse-arrow { 0%,100%{opacity:0.4;transform:translateY(0);} 50%{opacity:1;transform:translateY(4px);} }
+
+/* FEATURES */
+.k-features-section { padding:0 56px 110px; max-width:1200px; margin:0 auto; }
+.k-feat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border-radius:16px; overflow:hidden; border:1px solid var(--border); }
+.k-feat-card {
+  background:var(--card); padding:36px 30px; position:relative; overflow:hidden;
+  transition:background 0.3s;
+}
+.k-feat-card::after { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--gold-glow),transparent); opacity:0; transition:opacity 0.3s; }
+.k-feat-card:hover { background:var(--card2); }
+.k-feat-card:hover::after { opacity:1; }
+.k-feat-card.k-feat-star { background:linear-gradient(145deg,var(--card2),rgba(233,161,35,0.03)); }
+.k-feat-icon { width:42px; height:42px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:19px; margin-bottom:18px; }
+.k-fi-gold { background:rgba(233,161,35,0.1); }
+.k-fi-teal { background:rgba(0,212,160,0.09); }
+.k-fi-blue { background:rgba(59,126,255,0.09); }
+.k-fi-purple { background:rgba(139,92,246,0.09); }
+.k-fi-red { background:rgba(255,68,85,0.09); }
+.k-feat-badge { display:inline-block; font-family:var(--fm); font-size:9px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:3px 9px; border-radius:100px; margin-bottom:12px; }
+.k-badge-new { background:rgba(233,161,35,0.1); color:var(--gold); border:1px solid rgba(233,161,35,0.2); }
+.k-badge-excl { background:rgba(255,68,85,0.1); color:var(--red); border:1px solid rgba(255,68,85,0.2); }
+.k-badge-ai { background:rgba(139,92,246,0.1); color:var(--purple); border:1px solid rgba(139,92,246,0.2); }
+.k-feat-name { font-family:var(--fd); font-size:21px; font-weight:700; color:var(--text); margin-bottom:9px; line-height:1.2; }
+.k-feat-desc { font-size:13px; color:var(--text2); line-height:1.7; }
+.k-feat-stat { margin-top:18px; font-family:var(--fm); font-size:11px; color:var(--muted); display:flex; align-items:center; gap:6px; }
+.k-feat-stat .v { color:var(--teal); font-weight:500; }
+
+/* USERS */
+.k-users-section { padding:0 56px 110px; max-width:1200px; margin:0 auto; }
+.k-users-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+.k-user-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:28px 22px; transition:all 0.3s; cursor:default; }
+.k-user-card:hover { border-color:rgba(233,161,35,0.25); background:var(--card2); transform:translateY(-4px); box-shadow:0 14px 40px rgba(0,0,0,0.4), 0 0 24px var(--gold-glow); }
+.k-user-emoji { font-size:26px; margin-bottom:14px; }
+.k-user-role { font-family:var(--fd); font-size:20px; font-weight:700; color:var(--text); margin-bottom:8px; }
+.k-user-desc { font-size:13px; color:var(--text2); line-height:1.6; }
+.k-user-feats { margin-top:16px; display:flex; flex-direction:column; gap:6px; }
+.k-user-feat { font-family:var(--fm); font-size:11px; color:var(--muted); display:flex; align-items:center; gap:6px; }
+.k-user-feat::before { content:'→'; color:var(--gold); }
+
+/* COMPARE */
+.k-compare-section { padding:0 56px 110px; max-width:1200px; margin:0 auto; }
+.k-cmp-table { width:100%; border-collapse:collapse; background:var(--card); border-radius:16px; overflow:hidden; border:1px solid var(--border); }
+.k-cmp-table th { padding:16px 22px; text-align:center; font-family:var(--fm); font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; border-bottom:1px solid var(--border); color:var(--muted); }
+.k-cmp-table th:first-child { text-align:left; }
+.k-th-us { background:rgba(233,161,35,0.05); color:var(--gold) !important; border-left:1px solid rgba(233,161,35,0.12); border-right:1px solid rgba(233,161,35,0.12); }
+.k-cmp-table td { padding:13px 22px; border-bottom:1px solid rgba(255,255,255,0.025); font-size:13px; text-align:center; color:var(--text2); }
+.k-cmp-table td:first-child { text-align:left; color:var(--text); font-weight:500; }
+.k-cmp-table tr:last-child td { border-bottom:none; }
+.k-cmp-table tr:hover td { background:rgba(255,255,255,0.008); }
+.k-td-us { background:rgba(233,161,35,0.025); border-left:1px solid rgba(233,161,35,0.07); border-right:1px solid rgba(233,161,35,0.07); }
+.k-yes { color:var(--teal); font-size:15px; }
+.k-no { color:rgba(255,255,255,0.12); font-size:15px; }
+.k-partial { color:var(--gold); font-family:var(--fm); font-size:11px; }
+
+/* PRICING */
+.k-pricing-section { padding:0 56px 110px; max-width:1200px; margin:0 auto; }
+.k-price-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.k-price-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:36px 30px; position:relative; transition:all 0.3s; }
+.k-price-card:hover { border-color:var(--border2); transform:translateY(-2px); }
+.k-price-card.k-popular { border-color:var(--gold); background:linear-gradient(160deg,var(--card2),rgba(233,161,35,0.03)); box-shadow:0 0 50px var(--gold-glow); }
+.k-popular-badge { position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:linear-gradient(135deg,var(--gold),#A06010); color:#000; font-family:var(--fm); font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:4px 16px; border-radius:100px; white-space:nowrap; }
+.k-price-tier { font-family:var(--fm); font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; }
+.k-price-amt { font-family:var(--fd); font-size:52px; font-weight:700; color:var(--text); line-height:1; margin-bottom:4px; display:flex; align-items:flex-start; gap:4px; }
+.k-price-cur { font-size:20px; margin-top:9px; color:var(--text2); }
+.k-price-per { font-size:13px; color:var(--muted); font-family:var(--fb); align-self:flex-end; margin-bottom:7px; }
+.k-price-desc { font-size:13px; color:var(--text2); margin-bottom:26px; line-height:1.55; }
+.k-price-feats { display:flex; flex-direction:column; gap:11px; margin-bottom:28px; }
+.k-price-feat { display:flex; align-items:flex-start; gap:9px; font-size:13px; color:var(--text2); line-height:1.4; }
+.k-pf-chk { color:var(--teal); flex-shrink:0; margin-top:1px; }
+.k-btn-plan { width:100%; padding:12px; border-radius:9px; font-family:var(--fb); font-size:14px; font-weight:700; cursor:pointer; transition:all 0.2s; text-decoration:none; display:block; text-align:center; }
+.k-btn-plan-ol { background:transparent; border:1px solid var(--border2); color:var(--text2); }
+.k-btn-plan-ol:hover { border-color:var(--gold); color:var(--gold); background:var(--gold-faint); }
+.k-btn-plan-gold { background:linear-gradient(135deg,var(--gold),#A06010); color:#000; border:none; box-shadow:0 0 28px var(--gold-glow); }
+.k-btn-plan-gold:hover { box-shadow:0 0 44px var(--gold-glow2); transform:translateY(-1px); }
+
+/* FOUNDER */
+.k-founder-section { padding:0 56px 110px; max-width:1200px; margin:0 auto; }
+.k-founder-card { display:grid; grid-template-columns:auto 1fr; gap:48px; align-items:center; background:var(--card); border:1px solid var(--border); border-radius:18px; padding:52px; }
+.k-founder-img { width:110px; height:110px; border-radius:50%; object-fit:cover; border:2px solid rgba(233,161,35,0.3); box-shadow:0 0 30px var(--gold-glow); }
+.k-founder-tag { font-family:var(--fm); font-size:10px; color:var(--gold); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:12px; }
+.k-founder-name { font-family:var(--fd); font-size:34px; font-weight:700; color:var(--text); margin-bottom:6px; }
+.k-founder-role { font-family:var(--fm); font-size:12px; color:var(--muted); margin-bottom:18px; }
+.k-founder-bio { font-size:15px; color:var(--text2); line-height:1.7; max-width:620px; }
+.k-founder-badges { display:flex; gap:10px; margin-top:20px; flex-wrap:wrap; }
+.k-badge { background:var(--gold-faint); border:1px solid rgba(233,161,35,0.2); color:var(--gold); font-family:var(--fm); font-size:10px; padding:4px 12px; border-radius:100px; letter-spacing:0.06em; }
+
+/* CTA */
+.k-cta { padding:100px 56px 120px; text-align:center; position:relative; overflow:hidden; }
+.k-cta-bg { position:absolute; inset:0; background:radial-gradient(ellipse 70% 60% at 50% 50%, rgba(233,161,35,0.06), transparent 70%); }
+.k-cta-title { font-family:var(--fd); font-size:clamp(38px,5vw,72px); font-weight:700; color:var(--text); line-height:1.1; max-width:680px; margin:0 auto 20px; position:relative; z-index:1; }
+.k-cta-sub { font-size:17px; color:var(--text2); max-width:460px; margin:0 auto 40px; line-height:1.65; position:relative; z-index:1; }
+.k-cta-acts { display:flex; align-items:center; gap:14px; justify-content:center; position:relative; z-index:1; flex-wrap:wrap; }
+
+/* FOOTER */
+.k-footer { border-top:1px solid var(--border); padding:40px 56px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; background:var(--bg2); }
+.k-footer-logo { display:flex; align-items:center; gap:9px; font-family:var(--fd); font-size:16px; font-weight:700; color:var(--text); }
+.k-footer-links { display:flex; gap:26px; list-style:none; flex-wrap:wrap; }
+.k-footer-links a { font-size:12px; color:var(--muted); text-decoration:none; font-family:var(--fm); transition:color 0.2s; }
+.k-footer-links a:hover { color:var(--gold); }
+.k-footer-copy { font-family:var(--fm); font-size:11px; color:var(--muted); }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+
+/* REVEAL */
+.k-reveal { opacity:0; transform:translateY(28px); transition:opacity 0.7s ease, transform 0.7s ease; }
+.k-reveal.k-vis { opacity:1; transform:translateY(0); }
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .k-nav { padding:14px 24px; }
+  .k-nav-links { display:none; }
+  .k-hero { padding:110px 24px 60px; }
+  .k-proof { padding:24px; gap:28px; }
+  .k-pipeline-section,.k-features-section,.k-users-section,.k-compare-section,.k-pricing-section,.k-founder-section { padding-left:24px; padding-right:24px; }
+  .k-pipeline { grid-template-columns:1fr; }
+  .k-pipe-arrow { transform:rotate(90deg); }
+  .k-feat-grid,.k-price-grid { grid-template-columns:1fr; }
+  .k-users-grid { grid-template-columns:1fr 1fr; }
+  .k-founder-card { grid-template-columns:1fr; text-align:center; }
+  .k-founder-badges { justify-content:center; }
+  .k-footer { padding:28px 24px; flex-direction:column; align-items:flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="k-cursor" id="kCursor"></div>
+<div class="k-cursor-ring" id="kRing"></div>
+
+<!-- STATUS BAR -->
+<div class="k-status-bar">
+  <span class="status-pulse"></span>
+  <span id="statusText">Engine Running · Initializing intelligence pipeline...</span>
+</div>
+
+<!-- NAV -->
+<nav class="k-nav" id="kNav">
+  <a href="/" class="k-logo">
+    <div class="k-logo-icon">K</div>
+    <span class="k-logo-text">The KPI Hub</span>
+  </a>
+  <ul class="k-nav-links">
+    <li><a href="#pipeline">How It Works</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#founder">About</a></li>
+  </ul>
+  <div class="k-nav-right">
+    <a href="/app" class="k-btn-ghost">Sign In</a>
+    <a href="/app" class="k-btn-gold">Launch Dashboard →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="k-hero">
+  <div class="k-grid-bg"></div>
+  <div class="k-orb k-orb1"></div>
+  <div class="k-orb k-orb2"></div>
+  <div class="k-orb k-orb3"></div>
+
+  <div class="k-eyebrow">
+    <span class="status-pulse"></span>
+    AI-Native · Full-Stack · Zero Fluff · Built in Delhi
+  </div>
+
+  <h1 class="k-hero-title">
+    <span class="k-italic k-gradient">Decision-Grade</span><br/>
+    Intelligence.<br/>
+    <span id="kTypewriter" class="k-typewriter"></span>
+  </h1>
+
+  <p class="k-hero-sub">
+    The KPI Hub synthesizes real-time SaaS intelligence into board-ready insights — with AI benchmarking, NL querying, competitor signal mining, and automated narratives that no other platform offers.
+  </p>
+
+  <div class="k-hero-actions">
+    <a href="/app" class="k-btn-hero">Launch Intelligence Dashboard →</a>
+    <a href="#pipeline" class="k-btn-outline">See The Engine ↓</a>
+  </div>
+
+  <div class="k-trust-row">
+    <div class="k-trust-item"><span class="k-chk">✓</span> Zero setup</div>
+    <div class="k-trust-div"></div>
+    <div class="k-trust-item"><span class="k-chk">✓</span> Free tier forever</div>
+    <div class="k-trust-div"></div>
+    <div class="k-trust-item"><span class="k-chk">✓</span> No credit card</div>
+    <div class="k-trust-div"></div>
+    <div class="k-trust-item"><span class="k-chk">✓</span> India's Top 300 Builders</div>
+  </div>
+
+  <!-- LIVE TERMINAL -->
+  <div class="k-terminal-wrap">
+    <div class="k-terminal">
+      <div class="k-terminal-bar">
+        <div class="k-dot k-dot-r"></div>
+        <div class="k-dot k-dot-y"></div>
+        <div class="k-dot k-dot-g"></div>
+        <span class="k-terminal-title">kpihub-engine · intelligence-pipeline · v2.1.0</span>
+        <div class="k-terminal-status"><span class="status-pulse"></span> LIVE</div>
+      </div>
+      <div class="k-terminal-body" id="kTerminal"></div>
+    </div>
+  </div>
+
+  <!-- LIVE TICKER -->
+  <div class="k-ticker-section">
+    <div class="k-ticker-label"><span class="k-live-dot"></span>Live SaaS Intelligence Feed</div>
+    <div class="k-ticker-track">
+      <div class="k-ticker-scroll" id="tickerA">
+        <div class="k-pill"><div><div class="k-pill-label">MRR</div><div class="k-pill-val">$34,200</div></div><div class="k-pill-delta k-up">▲ 18.4%</div></div>
+        <div class="k-pill"><div><div class="k-pill-label">NRR</div><div class="k-pill-val">118%</div></div><div class="k-pill-delta k-up">▲ Top Decile</div></div>
+        <div class="k-pill"><div><div class="k-pill-label">Rule of 40</div><div class="k-pill-val">61</div></div><div class="k-pill-delta k-up">▲ Threshold</div></div>
+        <div class="k-pill"><div><div class="k-pill-label">LTV:CAC</div><div class="k-pill-val">4.8x</div></div><div class="k-pill-delta k-warn">⬤ Near P75</div></div>
+        <div class="k-pill"><div><div class="k-pill-label">Churn</div><div class="k-pill-val">1.98%</div></div><div class="k-pill-delta k-up">▲ Target Hit</div></div>
+        <div class="k-pill"><div><div class="k-pill-label">ARR Run Rate</div><div class="k-pill-val">$410K</div></div><div class="k-pill-delta k-up">▲ 26.2% QoQ</div></div>
+        <div class="k-pill"><div><div class="k-pill-label">Quick Ratio</div><div class="k-pill-val">3.6</div></div><div class="k-pill-delta k-up">▲ P75 Band</div></div>
+        <div class="k-pill"><div><div class="k-pill-label">Burn Multiple</div><div class="k-pill-val">1.2x</div></div><div class="k-pill-delta k-up">▲ Efficient</div></div>
+        <div class="k-pill"><div><div class="k-pill-label">CAC Payback</div><div class="k-pill-val">14 mo</div></div><div class="k-pill-delta k-up">▲ P50 Band</div></div>
+        <div class="k-pill"><div><div class="k-pill-label">Magic Number</div><div class="k-pill-val">0.9</div></div><div class="k-pill-delta k-up">▲ Healthy</div></div>
+      </div>
+      <div class="k-ticker-scroll" aria-hidden="true">
+        <div class="k-pill"><div><div class="k-pill-label">MRR</div><div class="k-pill-val">$34,200</div></div><div class="k-pill-delta k-up">▲ 18.4%</div></div>
+        <div class="k-pill"><div><div class="k-pill-label">NRR</div><div class="k-pill-val">118%</div></div><div class="k-pill-delta k-up">▲ Top Decile</div></div>
+        <div class="k-pill"><div><div class="k-pill-label">Rule of 40</div><div class="k-pill-val">61</div></div><div class="k-pill-delta k-up">▲ Threshold</div></div>
+        <div class="k-pill"><div><div class="k-pill-label">LTV:CAC</div><div class="k-pill-val">4.8x</div></div><div class="k-pill-delta k-warn">⬤ Near P75</div></div>
+        <div class="k-pill"><div><div class="k-pill-label">Churn</div><div class="k-pill-val">1.98%</div></div><div class="k-pill-delta k-up">▲ Target Hit</div></div>
+        <div class="k-pill"><div><div class="k-pill-label">ARR Run Rate</div><div class="k-pill-val">$410K</div></div><div class="k-pill-delta k-up">▲ 26.2% QoQ</div></div>
+        <div class="k-pill"><div><div class="k-pill-label">Quick Ratio</div><div class="k-pill-val">3.6</div></div><div class="k-pill-delta k-up">▲ P75 Band</div></div>
+        <div class="k-pill"><div><div class="k-pill-label">Burn Multiple</div><div class="k-pill-val">1.2x</div></div><div class="k-pill-delta k-up">▲ Efficient</div></div>
+        <div class="k-pill"><div><div class="k-pill-label">CAC Payback</div><div class="k-pill-val">14 mo</div></div><div class="k-pill-delta k-up">▲ P50 Band</div></div>
+        <div class="k-pill"><div><div class="k-pill-label">Magic Number</div><div class="k-pill-val">0.9</div></div><div class="k-pill-delta k-up">▲ Healthy</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<div class="k-proof k-reveal">
+  <div class="k-proof-item"><div class="k-proof-num" data-count="35">0</div><div class="k-proof-lbl">KPI Metrics Tracked</div></div>
+  <div class="k-proof-div"></div>
+  <div class="k-proof-item"><div class="k-proof-num" data-count="6">0</div><div class="k-proof-lbl">AI-Powered Modules</div></div>
+  <div class="k-proof-div"></div>
+  <div class="k-proof-item"><div class="k-proof-num" data-count="40">0</div><div class="k-proof-lbl">Data Sources Wired</div></div>
+  <div class="k-proof-div"></div>
+  <div class="k-proof-item"><div class="k-proof-num" data-count="300">0</div><div class="k-proof-lbl">India Top Builders Rank</div></div>
+  <div class="k-proof-div"></div>
+  <div class="k-proof-item"><div class="k-proof-num">24/7</div><div class="k-proof-lbl">Automated Intelligence</div></div>
+</div>
+
+<!-- PIPELINE -->
+<section class="k-pipeline-section" id="pipeline">
+  <div class="k-section-eye k-reveal">Automation Engine</div>
+  <h2 class="k-section-title k-reveal">A 3-engine pipeline that runs <span class="k-acc">24/7 — so you don't have to</span></h2>
+  <div class="k-pipeline k-reveal">
+    <div class="k-pipe-step">
+      <div class="k-pipe-num">01</div>
+      <div class="k-pipe-icon">⚙️</div>
+      <div class="k-pipe-name">Harvest</div>
+      <div class="k-pipe-desc">Automated Python engine continuously pulls from 40+ SaaS data sources — RSS feeds, X signals, financial news, and market data — via scheduled cron jobs running every 15 minutes.</div>
+      <span class="k-pipe-tag k-tag-auto">⬤ Fully Automated</span>
+    </div>
+    <div class="k-pipe-arrow"><div class="k-arrow-line"></div><div class="k-arrow-head">▼</div><div class="k-arrow-line"></div></div>
+    <div class="k-pipe-step">
+      <div class="k-pipe-num">02</div>
+      <div class="k-pipe-icon">🧠</div>
+      <div class="k-pipe-name">Synthesize</div>
+      <div class="k-pipe-desc">Claude AI processes and cross-verifies every signal using our SerpAPI verification matrix — stripping noise, detecting anomalies, and transforming raw data into structured intelligence.</div>
+      <span class="k-pipe-tag k-tag-ai">✦ Claude-Powered</span>
+    </div>
+    <div class="k-pipe-arrow"><div class="k-arrow-line"></div><div class="k-arrow-head">▼</div><div class="k-arrow-line"></div></div>
+    <div class="k-pipe-step">
+      <div class="k-pipe-num">03</div>
+      <div class="k-pipe-icon">⚡</div>
+      <div class="k-pipe-name">Deliver</div>
+      <div class="k-pipe-desc">You receive clean, decision-ready insights — benchmark-anchored, percentile-ranked, and board-ready. No dashboards to dig through. No fluff to filter. Just signal.</div>
+      <span class="k-pipe-tag k-tag-live">◈ Real-Time Delivery</span>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="k-features-section" id="features">
+  <div class="k-section-eye k-reveal">Platform Capabilities</div>
+  <h2 class="k-section-title k-reveal">Six modules that <span class="k-acc">don't exist anywhere else</span></h2>
+  <div class="k-feat-grid k-reveal">
+    <div class="k-feat-card k-feat-star">
+      <div class="k-feat-icon k-fi-gold">📊</div>
+      <span class="k-feat-badge k-badge-new">Core</span>
+      <div class="k-feat-name">Intelligence Overview</div>
+      <div class="k-feat-desc">Real-time KPI dashboard with MRR tracking, radar benchmarks vs market, and health score placing you in context against thousands of SaaS companies globally.</div>
+      <div class="k-feat-stat">Health Score <span class="v">84/100 · Top 22%</span></div>
+    </div>
+    <div class="k-feat-card">
+      <div class="k-feat-icon k-fi-blue">⊟</div>
+      <span class="k-feat-badge k-badge-new">Data</span>
+      <div class="k-feat-name">Benchmark Intelligence</div>
+      <div class="k-feat-desc">11 SaaS KPIs with P25–P90 percentile data updated quarterly from Bessemer, OpenView, SaaStr, and a16z. Filter by Growth, Retention, Efficiency, and Unit Economics.</div>
+      <div class="k-feat-stat">Sources <span class="v">Bessemer · a16z · SaaStr</span></div>
+    </div>
+    <div class="k-feat-card">
+      <div class="k-feat-icon k-fi-gold">⚡</div>
+      <span class="k-feat-badge k-badge-ai">AI-Powered</span>
+      <div class="k-feat-name">AI KPI Analyzer</div>
+      <div class="k-feat-desc">Input any metric and your stage. Get an instant AI verdict — percentile ranking, benchmark context, and a specific next action. No more guessing if your numbers are good.</div>
+      <div class="k-feat-stat">Response Time <span class="v">&lt; 3 seconds</span></div>
+    </div>
+    <div class="k-feat-card">
+      <div class="k-feat-icon k-fi-teal">◎</div>
+      <span class="k-feat-badge k-badge-excl">Doesn't Exist Elsewhere</span>
+      <div class="k-feat-name">NL Query Engine</div>
+      <div class="k-feat-desc">Ask any SaaS KPI question in plain English. Get benchmark-grade answers sourced from top VC research — not generic web content.</div>
+      <div class="k-feat-stat">Knowledge Base <span class="v">Bessemer · OpenView · a16z</span></div>
+    </div>
+    <div class="k-feat-card">
+      <div class="k-feat-icon k-fi-purple">✦</div>
+      <span class="k-feat-badge k-badge-excl">Doesn't Exist Elsewhere</span>
+      <div class="k-feat-name">Board Narrative Generator</div>
+      <div class="k-feat-desc">Enter 8 KPIs. Get a CFO-grade board narrative in seconds — confident, benchmark-anchored investor prose. No bullets. No fluff. Ready to paste into your deck.</div>
+      <div class="k-feat-stat">Format <span class="v">Investor-grade · Board-ready</span></div>
+    </div>
+    <div class="k-feat-card">
+      <div class="k-feat-icon k-fi-red">⊕</div>
+      <span class="k-feat-badge k-badge-excl">Doesn't Exist Elsewhere</span>
+      <div class="k-feat-name">Competitor Signal Mining</div>
+      <div class="k-feat-desc">Track Klipfolio, Databox, Geckoboard with real ARR, NPS, and churn signals. Deep-dive AI competitive intelligence on demand before any sales call.</div>
+      <div class="k-feat-stat">Competitors Tracked <span class="v">4 major platforms</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- USERS -->
+<section class="k-users-section" id="users">
+  <div class="k-section-eye k-reveal">Built For Everyone</div>
+  <h2 class="k-section-title k-reveal">One platform. <span class="k-acc">Four power users.</span></h2>
+  <div class="k-users-grid k-reveal">
+    <div class="k-user-card">
+      <div class="k-user-emoji">🚀</div>
+      <div class="k-user-role">SaaS Founders</div>
+      <div class="k-user-desc">Track MRR, churn, and NRR against real benchmarks. Know where you stand before every investor meeting.</div>
+      <div class="k-user-feats">
+        <div class="k-user-feat">Board narrative in seconds</div>
+        <div class="k-user-feat">Fundraising benchmark context</div>
+        <div class="k-user-feat">Health score tracking</div>
+      </div>
+    </div>
+    <div class="k-user-card">
+      <div class="k-user-emoji">🏢</div>
+      <div class="k-user-role">Agencies</div>
+      <div class="k-user-desc">Manage KPI reporting for multiple clients. Generate client-ready narratives without the manual work.</div>
+      <div class="k-user-feats">
+        <div class="k-user-feat">Multi-client dashboards</div>
+        <div class="k-user-feat">Automated report generation</div>
+        <div class="k-user-feat">White-label ready</div>
+      </div>
+    </div>
+    <div class="k-user-card">
+      <div class="k-user-emoji">🏛️</div>
+      <div class="k-user-role">Enterprise Teams</div>
+      <div class="k-user-desc">Give every analyst a shared language around KPIs. Standardize metric definitions, track against P90 benchmarks.</div>
+      <div class="k-user-feats">
+        <div class="k-user-feat">Team-wide metric alignment</div>
+        <div class="k-user-feat">NL querying for analysts</div>
+        <div class="k-user-feat">Competitor intelligence</div>
+      </div>
+    </div>
+    <div class="k-user-card">
+      <div class="k-user-emoji">💼</div>
+      <div class="k-user-role">Consultants</div>
+      <div class="k-user-desc">Deliver sharper recommendations backed by real benchmark data. Know what good looks like across every SaaS vertical.</div>
+      <div class="k-user-feats">
+        <div class="k-user-feat">Instant benchmark research</div>
+        <div class="k-user-feat">AI-generated analysis</div>
+        <div class="k-user-feat">Presentation-ready outputs</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARE -->
+<section class="k-compare-section" id="compare">
+  <div class="k-section-eye k-reveal">Why Switch</div>
+  <h2 class="k-section-title k-reveal">Smart teams are <span class="k-acc">moving here</span></h2>
+  <div class="k-reveal">
+    <table class="k-cmp-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th class="k-th-us">⬡ The KPI Hub</th>
+          <th>Databox</th>
+          <th>Klipfolio</th>
+          <th>Geckoboard</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>AI-powered KPI analysis</td><td class="k-td-us"><span class="k-yes">✓</span></td><td><span class="k-partial">Partial</span></td><td><span class="k-no">✗</span></td><td><span class="k-no">✗</span></td></tr>
+        <tr><td>Natural language querying</td><td class="k-td-us"><span class="k-yes">✓</span></td><td><span class="k-no">✗</span></td><td><span class="k-no">✗</span></td><td><span class="k-no">✗</span></td></tr>
+        <tr><td>Board narrative generator</td><td class="k-td-us"><span class="k-yes">✓</span></td><td><span class="k-no">✗</span></td><td><span class="k-no">✗</span></td><td><span class="k-no">✗</span></td></tr>
+        <tr><td>Competitor signal mining</td><td class="k-td-us"><span class="k-yes">✓</span></td><td><span class="k-no">✗</span></td><td><span class="k-no">✗</span></td><td><span class="k-no">✗</span></td></tr>
+        <tr><td>SaaS benchmark percentiles (P25–P90)</td><td class="k-td-us"><span class="k-yes">✓</span></td><td><span class="k-partial">Basic</span></td><td><span class="k-no">✗</span></td><td><span class="k-no">✗</span></td></tr>
+        <tr><td>Free tier available</td><td class="k-td-us"><span class="k-yes">✓</span></td><td><span class="k-no">✗</span></td><td><span class="k-partial">Trial only</span></td><td><span class="k-partial">Trial only</span></td></tr>
+        <tr><td>Starting price / month</td><td class="k-td-us" style="color:var(--gold);font-family:var(--fm);font-weight:700;">Free</td><td style="font-family:var(--fm);">$79</td><td style="font-family:var(--fm);">$90</td><td style="font-family:var(--fm);">$149</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="k-pricing-section" id="pricing">
+  <div class="k-section-eye k-reveal">Simple Pricing</div>
+  <h2 class="k-section-title k-reveal">Start free. Scale <span class="k-acc">when you're ready.</span></h2>
+  <div class="k-price-grid k-reveal">
+    <div class="k-price-card">
+      <div class="k-price-tier">Starter</div>
+      <div class="k-price-amt"><span class="k-price-cur">$</span>0<span class="k-price-per">/mo</span></div>
+      <div class="k-price-desc">Everything to start tracking intelligence. No credit card. No expiry.</div>
+      <div class="k-price-feats">
+        <div class="k-price-feat"><span class="k-pf-chk">✓</span>Full KPI overview dashboard</div>
+        <div class="k-price-feat"><span class="k-pf-chk">✓</span>SaaS benchmark table</div>
+        <div class="k-price-feat"><span class="k-pf-chk">✓</span>5 AI queries per day</div>
+        <div class="k-price-feat"><span class="k-pf-chk">✓</span>3 board narratives per month</div>
+        <div class="k-price-feat"><span class="k-pf-chk">✓</span>Basic competitor signals</div>
+      </div>
+      <a href="/app" class="k-btn-plan k-btn-plan-ol">Get Started Free</a>
+    </div>
+    <div class="k-price-card k-popular">
+      <div class="k-popular-badge">Most Popular</div>
+      <div class="k-price-tier">Growth</div>
+      <div class="k-price-amt"><span class="k-price-cur">$</span>29<span class="k-price-per">/mo</span></div>
+      <div class="k-price-desc">Full intelligence suite for founders and teams who need answers now.</div>
+      <div class="k-price-feats">
+        <div class="k-price-feat"><span class="k-pf-chk">✓</span>Everything in Starter</div>
+        <div class="k-price-feat"><span class="k-pf-chk">✓</span>Unlimited AI queries</div>
+        <div class="k-price-feat"><span class="k-pf-chk">✓</span>Unlimited board narratives</div>
+        <div class="k-price-feat"><span class="k-pf-chk">✓</span>Full competitor deep-dives</div>
+        <div class="k-price-feat"><span class="k-pf-chk">✓</span>Custom KPI tracking</div>
+        <div class="k-price-feat"><span class="k-pf-chk">✓</span>Export to PDF/CSV</div>
+      </div>
+      <a href="/app" class="k-btn-plan k-btn-plan-gold">Start Growth Plan →</a>
+    </div>
+    <div class="k-price-card">
+      <div class="k-price-tier">Enterprise</div>
+      <div class="k-price-amt"><span class="k-price-cur">$</span>99<span class="k-price-per">/mo</span></div>
+      <div class="k-price-desc">For agencies and enterprise teams managing multiple clients.</div>
+      <div class="k-price-feats">
+        <div class="k-price-feat"><span class="k-pf-chk">✓</span>Everything in Growth</div>
+        <div class="k-price-feat"><span class="k-pf-chk">✓</span>Multi-client workspaces</div>
+        <div class="k-price-feat"><span class="k-pf-chk">✓</span>White-label dashboards</div>
+        <div class="k-price-feat"><span class="k-pf-chk">✓</span>Admin panel + team roles</div>
+        <div class="k-price-feat"><span class="k-pf-chk">✓</span>Priority support (IST hours)</div>
+        <div class="k-price-feat"><span class="k-pf-chk">✓</span>Custom integrations</div>
+      </div>
+      <a href="mailto:Hsharma.gxi@gmail.com" class="k-btn-plan k-btn-plan-ol">Contact Sales</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section class="k-founder-section" id="founder">
+  <div class="k-section-eye k-reveal">The Builder</div>
+  <h2 class="k-section-title k-reveal">Built by someone who <span class="k-acc">lives in the data</span></h2>
+  <div class="k-founder-card k-reveal">
+    <img src="https://thekpihub.com/assets/founder.jpg" alt="Himanshu Sharma" class="k-founder-img" onerror="this.style.display='none'"/>
+    <div>
+      <div class="k-founder-tag">Founder & Lead Builder</div>
+      <div class="k-founder-name">Himanshu Sharma</div>
+      <div class="k-founder-role">Technical Specialist · Night-shift Cloud Engineer turned SaaS Founder · Delhi, India</div>
+      <div class="k-founder-bio">Built The KPI Hub entirely on a Samsung Z Fold 7 during night shifts. NHL broadcast monitoring specialist by day, AI-native SaaS founder by night. Selected — India's Top 300 Builders, VibeCon 2025. Obsessed with decision-grade intelligence and building tools that compete with platforms charging $800/month — and winning.</div>
+      <div class="k-founder-badges">
+        <span class="k-badge">India's Top 300 Builders</span>
+        <span class="k-badge">VibeCon 2025</span>
+        <span class="k-badge">NASSCOM Agentic AI</span>
+        <span class="k-badge">YC × Anthropic × Lightspeed</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="k-cta">
+  <div class="k-cta-bg"></div>
+  <h2 class="k-cta-title k-reveal">Ready to stop flying blind?</h2>
+  <p class="k-cta-sub k-reveal">Join the founders, agencies, and enterprise teams replacing gut feel with decision-grade intelligence.</p>
+  <div class="k-cta-acts k-reveal">
+    <a href="/app" class="k-btn-hero">Launch The KPI Hub →</a>
+    <a href="#features" class="k-btn-outline">Explore Features</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="k-footer">
+  <div class="k-footer-logo">
+    <div class="k-logo-icon" style="width:28px;height:28px;font-size:14px;">K</div>
+    The KPI Hub
+  </div>
+  <ul class="k-footer-links">
+    <li><a href="#pipeline">How It Works</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="/app">Dashboard</a></li>
+    <li><a href="https://thekpihub.com/about.html">About</a></li>
+    <li><a href="mailto:Hsharma.gxi@gmail.com">Contact</a></li>
+  </ul>
+  <div class="k-footer-copy">© 2026 The KPI Hub · Decision-Grade Intelligence · Made in Delhi 🇮🇳</div>
+</footer>
+
+<script>
+// CURSOR
+const kCursor = document.getElementById('kCursor');
+const kRing = document.getElementById('kRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; kCursor.style.left=mx+'px'; kCursor.style.top=my+'px'; });
+(function animRing(){ rx+=(mx-rx)*0.1; ry+=(my-ry)*0.1; kRing.style.left=rx+'px'; kRing.style.top=ry+'px'; requestAnimationFrame(animRing); })();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ kCursor.style.transform='translate(-50%,-50%) scale(2.5)'; kRing.style.width='48px'; kRing.style.height='48px'; });
+  el.addEventListener('mouseleave',()=>{ kCursor.style.transform='translate(-50%,-50%) scale(1)'; kRing.style.width='32px'; kRing.style.height='32px'; });
+});
+
+// NAV SCROLL
+window.addEventListener('scroll',()=>{ document.getElementById('kNav').classList.toggle('scrolled',scrollY>40); });
+
+// TYPEWRITER
+const phrases = ['Zero Fluff.','Instantly.','For Founders.','24/7 Automated.','Board-Ready.'];
+let pi=0,ci=0,deleting=false;
+const tw = document.getElementById('kTypewriter');
+function typeLoop(){
+  const phrase = phrases[pi];
+  if(!deleting){ tw.textContent=phrase.slice(0,++ci); if(ci===phrase.length){deleting=true;setTimeout(typeLoop,1800);return;} }
+  else{ tw.textContent=phrase.slice(0,--ci); if(ci===0){deleting=false;pi=(pi+1)%phrases.length;} }
+  setTimeout(typeLoop,deleting?50:90);
+}
+setTimeout(typeLoop,1200);
+
+// STATUS BAR ROTATION
+const statuses = [
+  'Engine Running · 2,847 signals processed today',
+  'AI Synthesis Active · 14 anomalies detected',
+  'Competitor Monitoring · Klipfolio churn spike flagged',
+  'Benchmark Pipeline · Q1 2026 data loaded',
+  'Board Narrative Engine · 3 reports generated today',
+  'NL Query Engine · Online · Claude-powered',
+];
+let si=0;
+setInterval(()=>{ si=(si+1)%statuses.length; document.getElementById('statusText').textContent=statuses[si]; },3500);
+
+// TERMINAL ANIMATION
+const termLines = [
+  {type:'cmd', text:'$ kpihub-engine start --mode=intelligence'},
+  {type:'out', text:'[00:00.001] Initializing data pipeline v2.1.0...'},
+  {type:'ok',  text:'[00:00.042] ✓ 40+ data sources connected'},
+  {type:'ok',  text:'[00:00.118] ✓ Claude AI synthesis engine online'},
+  {type:'data',text:'[00:00.203] Pulling SaaS signals: RSS[12] X[847] News[234]'},
+  {type:'ok',  text:'[00:00.891] ✓ SerpAPI verification matrix loaded'},
+  {type:'warn',text:'[00:01.204] ⚠ Anomaly detected: Klipfolio churn +2.1%'},
+  {type:'data',text:'[00:01.456] Processing benchmark percentiles P25→P90...'},
+  {type:'ok',  text:'[00:01.789] ✓ 11 KPI benchmarks updated (Bessemer Q1 2026)'},
+  {type:'ok',  text:'[00:02.012] ✓ Board narrative engine ready'},
+  {type:'cmd', text:'$ status --all'},
+  {type:'ok',  text:'[00:02.156] ✓ All systems operational · 2,847 signals/day'},
+];
+const term = document.getElementById('kTerminal');
+const colorMap = {cmd:'k-line-cmd',out:'k-line-out',ok:'k-line-ok',warn:'k-line-warn',data:'k-line-data'};
+let li=0;
+function addLine(){
+  if(li>=termLines.length){ setTimeout(()=>{ term.innerHTML=''; li=0; addLine(); },2000); return; }
+  const l=termLines[li++];
+  const div=document.createElement('div');
+  div.className='k-line'; div.style.animationDelay='0s';
+  div.innerHTML=`<span class="${colorMap[l.type]}">${l.text}</span>`;
+  term.appendChild(div);
+  if(term.children.length>8) term.removeChild(term.firstChild);
+  term.scrollTop=term.scrollHeight;
+  setTimeout(addLine,l.type==='cmd'?600:220);
+}
+setTimeout(addLine,800);
+
+// SCROLL REVEAL
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('k-vis');obs.unobserve(e.target);} });
+},{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.k-reveal').forEach(el=>obs.observe(el));
+
+// STAGGER CHILDREN
+document.querySelectorAll('.k-feat-grid,.k-users-grid,.k-price-grid').forEach(g=>{
+  [...g.children].forEach((c,i)=>c.style.transitionDelay=(i*0.08)+'s');
+});
+
+// COUNT UP
+const countObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('[data-count]').forEach(el=>{
+        const target=+el.dataset.count; let current=0;
+        const step=target/50;
+        const t=setInterval(()=>{ current=Math.min(current+step,target); el.textContent=Math.floor(current)+(target>=300?'+':''); if(current>=target)clearInterval(t); },30);
+      });
+      countObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.3});
+document.querySelectorAll('.k-proof').forEach(el=>countObs.observe(el));
+</script>
+</body>
+</html>

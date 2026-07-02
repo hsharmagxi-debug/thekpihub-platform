@@ -1,0 +1,44 @@
+param([string]$WorkspaceRoot = "$env:USERPROFILE\thekpihub_repositories", [switch]$CheckOnly, [switch]$NonInteractive, [switch]$AllowServiceStart)
+. "$PSScriptRoot\..\..\common\Upgrade-Common.ps1"
+$Global:CheckOnly = [bool]$CheckOnly
+$Global:NonInteractive = [bool]$NonInteractive
+ 
+$RepoName = "thekpihub"
+Write-Title "$RepoName Next.js/Prisma setup"
+$RepoPath = Sync-WindowsSafeSnapshot -Name $RepoName -Url "https://github.com/thekpihub/thekpihub.git" -Branch "main" -WorkspaceRoot $WorkspaceRoot
+Require-Command npm "Install Node.js LTS from https://nodejs.org/."
+if ($CheckOnly) { Write-RunSummary -RepoName $RepoName -RepoPath $RepoPath; return }
+Enter-Repo $RepoPath
+ 
+Npm-Install
+if (Test-Path -LiteralPath "prisma\schema.prisma") {
+    Invoke-Checked "npx prisma generate" "Generate Prisma client"
+}
+$eslintConfigs = @(
+    ".eslintrc",
+    ".eslintrc.json",
+    ".eslintrc.js",
+    ".eslintrc.cjs",
+    "eslint.config.js",
+    "eslint.config.mjs",
+    "eslint.config.cjs"
+)
+$hasEslintConfig = [bool]($eslintConfigs | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1)
+if ($hasEslintConfig) {
+    Run-IfPackageScript -ScriptName "lint" -Description "Run lint checks"
+} else {
+    Write-Warn "No ESLint config found; skipping 'next lint' because it opens an interactive setup prompt in automation."
+}
+Run-IfPackageScript -ScriptName "build" -Description "Build Next.js app"
+
+Write-Warn "Confirm Neon, NextAuth, Stripe, mail, and PHP/static integration environment variables before deploy."
+if (Ask-YesNo "Start Next.js locally after build?") {
+    if (-not $AllowServiceStart) {
+        throw "Service start was requested, but -AllowServiceStart was not provided. Re-run with -AllowServiceStart when you intentionally want a long-running process."
+    }
+    Invoke-Checked "npm start" "Start Next.js app"
+} else {
+    Write-Warn "Skipped local start."
+}
+
+Write-RunSummary -RepoName $RepoName -RepoPath $RepoPath

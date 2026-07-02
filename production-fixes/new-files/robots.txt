@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin-login.html
+Disallow: /login.html
+Disallow: /dashboard.html
+
+Sitemap: https://thekpihub.com/sitemap.xml

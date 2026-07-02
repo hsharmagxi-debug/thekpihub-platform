@@ -1,0 +1,43 @@
+param([string]$WorkspaceRoot = "$env:USERPROFILE\thekpihub_repositories", [switch]$CheckOnly, [switch]$NonInteractive)
+. "$PSScriptRoot\..\..\common\Upgrade-Common.ps1"
+$Global:CheckOnly = [bool]$CheckOnly
+$Global:NonInteractive = [bool]$NonInteractive
+ 
+$RepoName = "thekpihub-website"
+Write-Title "$RepoName setup and Firebase upgrade"
+$GeneratedLandingFiles = @(
+    "landing/app.js",
+    "landing/hero.js",
+    "landing/sections-a.js",
+    "landing/sections-b.js",
+    "landing/sections-c.js",
+    "landing/sections-d.js",
+    "landing/sections-e.js",
+    "landing/sections-f.js"
+)
+$RepoPath = Sync-Repository -Name $RepoName -Url "https://github.com/thekpihub/thekpihub-website.git" -Branch "main" -WorkspaceRoot $WorkspaceRoot -ResetDirtyPaths $GeneratedLandingFiles
+Require-Command npm "Install Node.js LTS from https://nodejs.org/."
+if ($CheckOnly) { Write-RunSummary -RepoName $RepoName -RepoPath $RepoPath; return }
+Enter-Repo $RepoPath
+ 
+Npm-Install
+Run-IfPackageScript -ScriptName "build" -Description "Build landing React assets"
+Ensure-EnvTemplate -Names @(".env.example", "config.example.js")
+
+if (Test-Path -LiteralPath "firebase.json") {
+    Write-Ok "firebase.json found."
+} else {
+    throw "firebase.json not found; Firebase deployment cannot be prepared."
+}
+
+if (Ask-YesNo "Deploy Firebase Hosting now? Requires firebase login and the correct project selected.") {
+    if (Test-CommandAvailable firebase) {
+        Invoke-Checked "firebase deploy --only hosting" "Deploy Firebase Hosting"
+    } else {
+        Write-Warn "Firebase CLI is not installed. Skipping deploy; install with 'npm install -g firebase-tools', run 'firebase login', then deploy manually."
+    }
+} else {
+    Write-Warn "Skipped Firebase deploy. Run 'firebase deploy --only hosting' after reviewing config."
+}
+
+Write-RunSummary -RepoName $RepoName -RepoPath $RepoPath

@@ -1,0 +1,453 @@
+Set-StrictMode -Version Latest
+$ErrorActionPreference = "Stop"
+ 
+if (-not (Get-Variable -Name NonInteractive -Scope Global -ErrorAction SilentlyContinue)) {
+    $Global:NonInteractive = $false
+}
+if (-not (Get-Variable -Name CheckOnly -Scope Global -ErrorAction SilentlyContinue)) {
+    $Global:CheckOnly = $false
+}
+
+function Write-Title {
+    param([string]$Text)
+    Write-Host ""
+    Write-Host "============================================================" -ForegroundColor Cyan
+    Write-Host $Text -ForegroundColor Cyan
+    Write-Host "============================================================" -ForegroundColor Cyan
+}
+
+function Write-Step {
+    param([string]$Text)
+    Write-Host ""
+    Write-Host ">> $Text" -ForegroundColor Yellow
+}
+
+function Write-Ok {
+    param([string]$Text)
+    Write-Host "[OK] $Text" -ForegroundColor Green
+}
+
+function Write-Warn {
+    param([string]$Text)
+    Write-Host "[WARN] $Text" -ForegroundColor DarkYellow
+}
+
+function Require-Command {
+    param([string]$Name, [string]$InstallHint)
+    if (-not (Get-Command $Name -ErrorAction SilentlyContinue)) {
+        throw "Required command '$Name' was not found. $InstallHint"
+    }
+}
+
+function Test-CommandAvailable {
+    param([string]$Name)
+    return [bool](Get-Command $Name -ErrorAction SilentlyContinue)
+}
+
+function Invoke-Checked {
+    param(
+        [string]$Command,
+        [string]$Description
+    )
+    Write-Step $Description
+    Write-Host $Command -ForegroundColor DarkGray
+    if ($Global:CheckOnly) {
+        Write-Warn "CheckOnly mode: command not executed."
+        return
+    }
+    $psi = New-Object System.Diagnostics.ProcessStartInfo
+    $psi.FileName = "powershell.exe"
+    $commandToRun = "`$ProgressPreference = 'SilentlyContinue'; $Command"
+    $encodedCommand = [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($commandToRun))
+    $psi.Arguments = "-NoProfile -ExecutionPolicy Bypass -EncodedCommand $encodedCommand"
+    $psi.WorkingDirectory = (Get-Location).Path
+    $psi.UseShellExecute = $false
+    $psi.RedirectStandardOutput = $true
+    $psi.RedirectStandardError = $true
+    $process = [System.Diagnostics.Process]::Start($psi)
+    $stdout = $process.StandardOutput.ReadToEnd()
+    $stderr = $process.StandardError.ReadToEnd()
+    $process.WaitForExit()
+    if (-not [string]::IsNullOrWhiteSpace($stdout)) {
+        Write-Host $stdout.TrimEnd()
+    }
+    if (-not [string]::IsNullOrWhiteSpace($stderr)) {
+        Write-Host $stderr.TrimEnd()
+    }
+    if ($process.ExitCode -ne 0) {
+        throw "Command failed with exit code $($process.ExitCode): $Command"
+    }
+}
+
+function Ask-YesNo {
+    param([string]$Question, [bool]$DefaultNo = $true)
+    if ($Global:NonInteractive -or $Global:CheckOnly) {
+        Write-Warn "Non-interactive/check mode: defaulting to No for '$Question'."
+        return $false
+    }
+    $suffix = if ($DefaultNo) { "[y/N]" } else { "[Y/n]" }
+    $answer = Read-Host "$Question $suffix"
+    if ([string]::IsNullOrWhiteSpace($answer)) {
+        return -not $DefaultNo
+    }
+    return $answer.Trim().ToLowerInvariant().StartsWith("y")
+}
+
+function Resolve-WorkspaceRoot {
+    param([string]$RequestedRoot)
+    if ([string]::IsNullOrWhiteSpace($RequestedRoot)) {
+        $RequestedRoot = Join-Path $env:USERPROFILE "thekpihub_repositories"
+    }
+    if ($Global:CheckOnly) {
+        return $RequestedRoot
+    }
+    New-Item -ItemType Directory -Force -Path $RequestedRoot | Out-Null
+    return (Resolve-Path $RequestedRoot).Path
+}
+ 
+function Assert-GitWorktreeSafe {
+    param([string]$RepoPath)
+    Push-Location $RepoPath
+    try {
+        $status = git status --porcelain --untracked-files=no
+        if ($LASTEXITCODE -ne 0) {
+            throw "Unable to inspect git status in $RepoPath."
+        }
+        if ($status) {
+            throw "Repository has uncommitted changes. Commit, stash, or back up changes before running this setup: $RepoPath"
+        }
+    } finally {
+        Pop-Location
+    }
+}
+ 
+function Reset-KnownGeneratedChanges {
+    param([string]$RepoPath, [string[]]$Paths)
+    if (-not $Paths -or $Paths.Count -eq 0) {
+        return
+    }
+    Push-Location $RepoPath
+    try {
+        $trackedStatus = @(git status --porcelain --untracked-files=no)
+        $dirtyPaths = @($trackedStatus | ForEach-Object { $_.Substring(3) })
+        if ($dirtyPaths.Count -eq 0) {
+            return
+        }
+        $unexpected = @($dirtyPaths | Where-Object { $Paths -notcontains $_ })
+        if ($unexpected.Count -gt 0) {
+            return
+        }
+        Write-Warn "Only known generated files are modified; restoring them before update."
+        foreach ($path in $Paths) {
+            Invoke-Checked "git checkout -- `"$path`"" "Restore generated file $path"
+        }
+    } finally {
+        Pop-Location
+    }
+}
+ 
+function Test-IncompleteCheckout {
+    param([string]$RepoPath)
+    if (-not (Test-Path -LiteralPath (Join-Path $RepoPath ".git"))) {
+        return $false
+    }
+    $visibleEntries = Get-ChildItem -LiteralPath $RepoPath -Force | Where-Object { $_.Name -ne ".git" } | Select-Object -First 1
+    return -not [bool]$visibleEntries
+}
+ 
+function Repair-IncompleteCheckout {
+    param([string]$RepoPath, [string]$Branch)
+    Write-Warn "Checkout appears incomplete or empty. Repairing tracked files from Git before continuing."
+    Push-Location $RepoPath
+    try {
+        Invoke-Checked "git checkout $Branch" "Checkout $Branch for repair"
+        Invoke-Checked "git reset --hard HEAD" "Restore tracked files for incomplete checkout"
+    } finally {
+        Pop-Location
+    }
+}
+ 
+function Enable-SparseExcludes {
+    param([string]$RepoPath, [string[]]$SparseExcludes)
+    if (-not $SparseExcludes -or $SparseExcludes.Count -eq 0) {
+        return
+    }
+    Write-Warn "Enabling sparse checkout exclusions for Windows-incompatible paths."
+    Push-Location $RepoPath
+    try {
+        Invoke-Checked "git sparse-checkout init --no-cone" "Initialize non-cone sparse checkout"
+        $sparseFile = Join-Path $RepoPath ".git\info\sparse-checkout"
+        $patterns = @("/*") + ($SparseExcludes | ForEach-Object { "!$_" })
+        Set-Content -LiteralPath $sparseFile -Value $patterns -Encoding ASCII
+        Invoke-Checked "git sparse-checkout reapply" "Apply sparse checkout exclusions"
+    } finally {
+        Pop-Location
+    }
+}
+ 
+function Resolve-PythonExe {
+    if (Get-Command python -ErrorAction SilentlyContinue) {
+        return "python"
+    }
+    if (Get-Command py -ErrorAction SilentlyContinue) {
+        return "py"
+    }
+    $codexPython = Join-Path $env:USERPROFILE ".cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
+    if (Test-Path -LiteralPath $codexPython) {
+        Write-Warn "System Python not found; using bundled Codex Python at $codexPython."
+        return $codexPython
+    }
+    throw "Python was not found. Install Python 3.11+ or make python/py available on PATH."
+}
+ 
+function Resolve-DockerExe {
+    if (Get-Command docker -ErrorAction SilentlyContinue) {
+        return "docker"
+    }
+    $standardDocker = "C:\Program Files\Docker\Docker\resources\bin\docker.exe"
+    if (Test-Path -LiteralPath $standardDocker) {
+        Write-Warn "Docker is installed but not on PATH; using $standardDocker."
+        return $standardDocker
+    }
+    return $null
+}
+
+function Sync-Repository {
+    param(
+        [string]$Name,
+        [string]$Url,
+        [string]$Branch = "main",
+        [string]$WorkspaceRoot,
+        [string[]]$SparseExcludes = @(),
+        [string[]]$ResetDirtyPaths = @()
+    )
+    Require-Command git "Install Git for Windows from https://git-scm.com/download/win."
+    $root = Resolve-WorkspaceRoot $WorkspaceRoot
+    $repoPath = Join-Path $root $Name
+    if ($Global:CheckOnly) {
+        Write-Step "CheckOnly repository sync plan for $Name"
+        Write-Host "Would clone/update: $Url -> $repoPath"
+        return $repoPath
+    }
+    if (-not (Test-Path -LiteralPath $repoPath)) {
+        if ($SparseExcludes.Count -gt 0) {
+            Invoke-Checked "git clone --no-checkout --branch $Branch $Url `"$repoPath`"" "Clone $Name without checkout"
+            Enable-SparseExcludes -RepoPath $repoPath -SparseExcludes $SparseExcludes
+            Invoke-Checked "git -C `"$repoPath`" checkout $Branch" "Checkout $Name with sparse exclusions"
+        } else {
+            Invoke-Checked "git clone --branch $Branch $Url `"$repoPath`"" "Clone $Name"
+        }
+    } else {
+        Write-Step "Update existing checkout for $Name"
+        Reset-KnownGeneratedChanges -RepoPath $repoPath -Paths $ResetDirtyPaths
+        Enable-SparseExcludes -RepoPath $repoPath -SparseExcludes $SparseExcludes
+        if (Test-IncompleteCheckout -RepoPath $repoPath) {
+            Repair-IncompleteCheckout -RepoPath $repoPath -Branch $Branch
+        }
+        Assert-GitWorktreeSafe -RepoPath $repoPath
+        Push-Location $repoPath
+        try {
+            Invoke-Checked "git fetch origin $Branch" "Fetch origin/$Branch"
+            Invoke-Checked "git checkout $Branch" "Checkout $Branch"
+            Invoke-Checked "git pull --ff-only origin $Branch" "Fast-forward pull"
+        } finally {
+            Pop-Location
+        }
+    }
+    return $repoPath
+}
+ 
+function Write-GitBlobToFile {
+    param(
+        [string]$RepoPath,
+        [string]$BlobRef,
+        [string]$OutPath
+    )
+    $parent = Split-Path -Parent $OutPath
+    if (-not (Test-Path -LiteralPath $parent)) {
+        New-Item -ItemType Directory -Force -Path $parent | Out-Null
+    }
+    $psi = New-Object System.Diagnostics.ProcessStartInfo
+    $psi.FileName = "git"
+    $psi.Arguments = "cat-file blob `"$BlobRef`""
+    $psi.WorkingDirectory = $RepoPath
+    $psi.UseShellExecute = $false
+    $psi.RedirectStandardOutput = $true
+    $psi.RedirectStandardError = $true
+    $process = [System.Diagnostics.Process]::Start($psi)
+    $stream = [System.IO.File]::Open($OutPath, [System.IO.FileMode]::Create, [System.IO.FileAccess]::Write)
+    try {
+        $process.StandardOutput.BaseStream.CopyTo($stream)
+    } finally {
+        $stream.Close()
+    }
+    $stderr = $process.StandardError.ReadToEnd()
+    $process.WaitForExit()
+    if ($process.ExitCode -ne 0) {
+        throw "Failed to materialize $BlobRef. $stderr"
+    }
+}
+ 
+function Test-WindowsInvalidGitPath {
+    param([string]$Path)
+    if ($Path -match ":") {
+        return $true
+    }
+    foreach ($part in ($Path -split "/")) {
+        if ($part.EndsWith(".") -or $part.EndsWith(" ")) {
+            return $true
+        }
+    }
+    return $false
+}
+ 
+function Test-IncludedSnapshotPath {
+    param([string]$Path)
+    $includePrefixes = @(
+        ".github/",
+        "app/",
+        "backend/",
+        "prisma/",
+        "public/",
+        "src/"
+    )
+    $includeFiles = @(
+        ".gitignore",
+        ".htaccess",
+        ".npmrc",
+        "404.html",
+        "AGENTS.md",
+        "README.md",
+        "SETUP.ps1",
+        "SETUP_GUIDE.md",
+        "composer.json",
+        "config.js",
+        "dashboard.html",
+        "favicon.svg",
+        "index.html",
+        "login.html",
+        "next.config.mjs",
+        "package-lock.json",
+        "package.json",
+        "postcss.config.js",
+        "prisma.config.ts",
+        "register.html",
+        "robots.txt",
+        "setup.sh",
+        "sitemap.html",
+        "sitemap.xml",
+        "stripe-session.php",
+        "stripe-verify.php",
+        "supabase-schema.sql",
+        "tailwind.config.js",
+        "updates.html",
+        "upgrade-success.html",
+        "upgrade.html",
+        "vercel.json"
+    )
+    if ($includeFiles -contains $Path) {
+        return $true
+    }
+    foreach ($prefix in $includePrefixes) {
+        if ($Path.StartsWith($prefix)) {
+            return $true
+        }
+    }
+    return $false
+}
+ 
+function Sync-WindowsSafeSnapshot {
+    param(
+        [string]$Name,
+        [string]$Url,
+        [string]$Branch = "main",
+        [string]$WorkspaceRoot
+    )
+    Require-Command git "Install Git for Windows from https://git-scm.com/download/win."
+    $root = Resolve-WorkspaceRoot $WorkspaceRoot
+    $repoPath = Join-Path $root $Name
+    if ($Global:CheckOnly) {
+        Write-Step "CheckOnly Windows-safe snapshot plan for $Name"
+        Write-Host "Would fetch and materialize Windows-valid app/config files: $Url -> $repoPath"
+        return $repoPath
+    }
+    if (-not (Test-Path -LiteralPath $repoPath)) {
+        New-Item -ItemType Directory -Force -Path $repoPath | Out-Null
+        Push-Location $repoPath
+        try {
+            Invoke-Checked "git init" "Initialize local Git metadata for $Name"
+            Invoke-Checked "git remote add origin $Url" "Add origin remote"
+        } finally {
+            Pop-Location
+        }
+    }
+    Push-Location $repoPath
+    try {
+        $remote = git remote
+        if ($remote -notcontains "origin") {
+            Invoke-Checked "git remote add origin $Url" "Add origin remote"
+        }
+        Invoke-Checked "git fetch --depth 1 origin $Branch" "Fetch origin/$Branch"
+        $commit = (git rev-parse "origin/$Branch").Trim()
+        $paths = git ls-tree -r --name-only "origin/$Branch"
+        $selected = @($paths | Where-Object {
+            -not (Test-WindowsInvalidGitPath $_) -and (Test-IncludedSnapshotPath $_)
+        })
+        foreach ($path in $selected) {
+            $out = Join-Path $repoPath ($path -replace "/", "\")
+            Write-GitBlobToFile -RepoPath $repoPath -BlobRef "$commit`:$path" -OutPath $out
+        }
+        Set-Content -LiteralPath (Join-Path $repoPath ".thekpihub_snapshot_commit") -Value $commit -Encoding ASCII
+        Write-Ok "Materialized $($selected.Count) Windows-safe files from $commit."
+    } finally {
+        Pop-Location
+    }
+    return $repoPath
+}
+ 
+function Enter-Repo {
+    param([string]$RepoPath)
+    if (-not (Test-Path -LiteralPath $RepoPath)) {
+        throw "Repository path does not exist: $RepoPath"
+    }
+    Set-Location -LiteralPath $RepoPath
+}
+
+function Npm-Install {
+    if (Test-Path -LiteralPath "package-lock.json") {
+        Invoke-Checked "npm ci" "Install Node dependencies with npm ci"
+    } else {
+        Invoke-Checked "npm install" "Install Node dependencies with npm install"
+    }
+}
+
+function Run-IfPackageScript {
+    param([string]$ScriptName, [string]$Description)
+    if (-not (Test-Path -LiteralPath "package.json")) {
+        Write-Warn "No package.json found; skipping npm run $ScriptName."
+        return
+    }
+    $pkg = Get-Content -Raw -LiteralPath "package.json" | ConvertFrom-Json
+    if ($pkg.scripts.PSObject.Properties.Name -contains $ScriptName) {
+        Invoke-Checked "npm run $ScriptName" $Description
+    } else {
+        Write-Warn "package.json has no '$ScriptName' script; skipping."
+    }
+}
+
+function Ensure-EnvTemplate {
+    param([string[]]$Names)
+    foreach ($name in $Names) {
+        if (Test-Path -LiteralPath $name) {
+            Write-Ok "Found environment template/reference: $name"
+        }
+    }
+}
+
+function Write-RunSummary {
+    param([string]$RepoName, [string]$RepoPath)
+    Write-Title "$RepoName completed"
+    Write-Host "Checkout: $RepoPath"
+    Write-Host "Review terminal output above before deploying production changes."
+}
+ 

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intelligence Blog — The KPI Hub</title>
+  <meta name="description" content="AI-synthesised SaaS intelligence articles. Funding rounds, benchmarks, M&A signals, and product analysis — decision-grade and zero fluff." />
+  <meta property="og:title" content="Intelligence Blog — The KPI Hub" />
+  <meta property="og:description" content="Decision-grade SaaS intelligence. Updated daily by AI pipeline." />
+  <meta property="og:url" content="https://thekpihub.com/blog.html" />
+  <meta property="og:type" content="website" />
+  <link rel="canonical" href="https://thekpihub.com/blog.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:     #06071A;
+      --navy-2:   #0d0f2b;
+      --navy-3:   #131530;
+      --gold:     #E9A123;
+      --gold-dim: rgba(233,161,35,0.12);
+      --gold-mid: rgba(233,161,35,0.3);
+      --white:    #F5F4EF;
+      --muted:    rgba(245,244,239,0.5);
+      --border:   rgba(245,244,239,0.08);
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(6,7,26,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem; font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--white); text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.78rem; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--white); }
+    .nav-cta {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      background: var(--gold); color: var(--navy);
+      padding: 0.5rem 1.2rem; border-radius: 2px;
+      text-decoration: none; transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 5rem 2.5rem 3rem;
+      max-width: 1200px; margin: 0 auto;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-mid), transparent);
+    }
+    .eyebrow {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.2rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .eyebrow::before {
+      content: '';
+      width: 2rem; height: 1px;
+      background: var(--gold);
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.6rem, 5vw, 4rem);
+      font-weight: 400; line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero-sub {
+      font-size: 1.05rem; color: var(--muted);
+      max-width: 520px; line-height: 1.65;
+      margin-bottom: 2.5rem;
+    }
+    .hero-meta {
+      display: flex; gap: 2rem; flex-wrap: wrap;
+    }
+    .hero-meta span {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .hero-meta strong { color: var(--gold); }
+
+    /* ── FILTERS ── */
+    .filters-wrap {
+      background: var(--navy-2);
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 64px; z-index: 90;
+    }
+    .filters {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 2.5rem;
+      display: flex; gap: 0; overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .filters::-webkit-scrollbar { display: none; }
+    .filter-btn {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted);
+      background: none; border: none;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .filter-btn:hover { color: var(--white); }
+    .filter-btn.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .main {
+      max-width: 1200px; margin: 0 auto;
+      padding: 3rem 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 3rem;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .main { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+    }
+
+    /* ── ARTICLE GRID ── */
+    #articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* ── ARTICLE CARD ── */
+    .article-card {
+      background: var(--navy-2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.75rem;
+      text-decoration: none;
+      display: flex; flex-direction: column;
+      transition: border-color 0.25s, transform 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .article-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 3px; height: 0;
+      background: var(--gold);
+      transition: height 0.3s ease;
+    }
+    .article-card:hover { border-color: rgba(233,161,35,0.3); transform: translateY(-2px); }
+    .article-card:hover::before { height: 100%; }
+    .card-cat {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.9rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .card-cat::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--gold); border-radius: 50%;
+    }
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; font-weight: 600;
+      line-height: 1.25;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+      flex: 1;
+    }
+    .card-summary {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+    }
+    .card-footer {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+    }
+    .card-date {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.65rem; font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+    .card-arrow {
+      font-size: 0.8rem; color: var(--gold);
+      font-family: 'Syne', sans-serif;
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 5rem 2rem;
+      border: 1px dashed var(--border);
+      border-radius: 4px;
+    }
+    .empty-state h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-weight: 400;
+      margin-bottom: 0.75rem;
+      color: var(--muted);
+    }
+    .empty-state p { font-size: 0.9rem; color: var(--muted); }
+
+    /* ── SIDEBAR ── */
+    .sidebar { position: sticky; top: 110px; }
+    .sidebar-block {
+      background: var(--navy-2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .sidebar-block h4 {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+    }
+    .sidebar-block p {
+      font-size: 0.85rem; color: var(--muted);
+      line-height: 1.6; margin-bottom: 1rem;
+    }
+    .sidebar-input {
+      width: 100%;
+      background: var(--navy-3);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      padding: 0.6rem 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 0.6rem;
+    }
+    .sidebar-input:focus { border-color: var(--gold); }
+    .sidebar-btn {
+      width: 100%;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      background: var(--gold); color: var(--navy);
+      border: none; border-radius: 2px;
+      padding: 0.7rem;
+      cursor: pointer; transition: opacity 0.2s;
+    }
+    .sidebar-btn:hover { opacity: 0.85; }
+    .trending-list { list-style: none; }
+    .trending-list li {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .trending-list li:last-child { border-bottom: none; padding-bottom: 0; }
+    .trending-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; color: var(--gold-mid);
+      flex-shrink: 0; width: 1.2rem;
+    }
+    .trending-text {
+      font-size: 0.82rem; color: var(--muted); line-height: 1.45;
+    }
+    .trending-cat {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.58rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); margin-top: 0.2rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy-2);
+      border-top: 1px solid var(--border);
+      padding: 3rem 2.5rem;
+      margin-top: 4rem;
+    }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr repeat(3, 1fr);
+      gap: 3rem;
+    }
+    @media (max-width: 768px) {
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+      nav .nav-links { display: none; }
+    }
+    .footer-brand p {
+      font-size: 0.85rem; color: var(--muted);
+      margin-top: 0.5rem; max-width: 220px; line-height: 1.6;
+    }
+    .footer-col h5 {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.9rem;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.5rem; }
+    .footer-col ul a {
+      font-size: 0.85rem; color: var(--muted);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-col ul a:hover { color: var(--white); }
+    .footer-bottom {
+      max-width: 1200px; margin: 2rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-bottom p { font-size: 0.78rem; color: var(--muted); }
+    .footer-bottom a { color: var(--muted); text-decoration: none; }
+    .footer-bottom a:hover { color: var(--gold); }
+    .cookie-settings-link {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.75rem; border-radius: 2px;
+      transition: color 0.2s, border-color 0.2s;
+      cursor: pointer; background: none;
+    }
+    .cookie-settings-link:hover { color: var(--gold); border-color: var(--gold-mid); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/index.html" class="nav-logo">The KPI<span>Hub</span></a>
+    <ul class="nav-links">
+      <li><a href="/index.html">Home</a></li>
+      <li><a href="/intelligence.html">Intelligence</a></li>
+      <li><a href="/blog.html" class="active">Blog</a></li>
+      <li><a href="/directory.html">Directory</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/pricing.html">Pricing</a></li>
+    </ul>
+    <a href="/index.html#waitlist" class="nav-cta">Get Early Access</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="eyebrow">Intelligence Blog</div>
+    <h1>AI-Synthesised <em>SaaS</em><br>Intelligence.</h1>
+    <p class="hero-sub">Funding rounds, M&A moves, benchmark shifts, and product signals — curated by our pipeline, verified by our team. Zero fluff.</p>
+    <div class="hero-meta">
+      <span><strong id="article-count">—</strong> Articles Published</span>
+      <span>Updated <strong>Daily</strong></span>
+      <span><strong>6</strong> Categories</span>
+    </div>
+  </section>
+
+  <!-- FILTERS -->
+  <div class="filters-wrap">
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="Funding">Funding</button>
+      <button class="filter-btn" data-filter="Product">Product</button>
+      <button class="filter-btn" data-filter="M&A">M&A</button>
+      <button class="filter-btn" data-filter="Benchmarks">Benchmarks</button>
+      <button class="filter-btn" data-filter="People">People</button>
+      <button class="filter-btn" data-filter="Regulation">Regulation</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div>
+      <div id="articles-grid">
+        <!-- ARTICLES_INJECT_HERE -->
+        <!-- Default empty state shown until articles are injected -->
+        <div class="empty-state" id="empty-state">
+          <h3>Articles loading…</h3>
+          <p>Your pipeline articles will appear here once published.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-block">
+        <h4>Daily Digest</h4>
+        <p>AI-curated SaaS signals in your inbox every morning.</p>
+        <form action="https://formspree.io/f/REPLACE_BLOG_FORM_ID" method="POST">
+          <input type="email" name="email" class="sidebar-input" placeholder="Your work email" required />
+          <button type="submit" class="sidebar-btn">Subscribe Free</button>
+        </form>
+      </div>
+      <div class="sidebar-block">
+        <h4>Trending This Week</h4>
+        <ul class="trending-list" id="trending-list">
+          <li><span class="trending-num">1</span><div><div class="trending-text">CAC Payback Extends to 18 Months</div><div class="trending-cat">Benchmarks</div></div></li>
+          <li><span class="trending-num">2</span><div><div class="trending-text">Cursor Raises $100M at $2.5B</div><div class="trending-cat">Funding</div></div></li>
+          <li><span class="trending-num">3</span><div><div class="trending-text">EU AI Act Enforcement Begins</div><div class="trending-cat">Regulation</div></div></li>
+          <li><span class="trending-num">4</span><div><div class="trending-text">HubSpot Acquires Clearbit</div><div class="trending-cat">M&A</div></div></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="/index.html" class="nav-logo">The KPI<span style="color:var(--gold)">Hub</span></a>
+        <p>Decision-Grade Intelligence for the modern SaaS professional.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Platform</h5>
+        <ul>
+          <li><a href="/intelligence.html">Intelligence Feed</a></li>
+          <li><a href="/directory.html">SaaS Discovery</a></li>
+          <li><a href="/benchmarks.html">Benchmarks</a></li>
+          <li><a href="/coming-soon.html">Decision Reports</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/blog.html">Blog</a></li>
+          <li><a href="/coming-soon.html">Careers</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="/privacy.html">Privacy Policy</a></li>
+          <li><a href="/terms.html">Terms of Service</a></li>
+          <li><a href="/cookies.html">Cookie Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 <a href="/index.html">The KPI Hub</a>. All rights reserved. Made with ☕ in Delhi, India</p>
+      <button class="cookie-settings-link" onclick="resetCookieConsent()">Cookie Settings</button>
+    </div>
+  </footer>
+
+  <script>
+    // ── FILTER LOGIC ──
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const grid = document.getElementById('articles-grid');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        const cards = grid.querySelectorAll('.article-card');
+        let visible = 0;
+        cards.forEach(card => {
+          const cat = card.dataset.category || '';
+          const show = filter === 'all' || cat === filter;
+          card.style.display = show ? 'flex' : 'none';
+          if (show) visible++;
+        });
+        document.getElementById('empty-state') && (document.getElementById('empty-state').style.display = visible === 0 ? 'block' : 'none');
+      });
+    });
+
+    // ── ARTICLE COUNT ──
+    const cards = grid.querySelectorAll('.article-card');
+    const countEl = document.getElementById('article-count');
+    if (cards.length > 0) {
+      countEl.textContent = cards.length;
+      const emptyState = document.getElementById('empty-state');
+      if (emptyState) emptyState.style.display = 'none';
+    } else {
+      countEl.textContent = '0';
+    }
+
+    // ── COOKIE SETTINGS RESET ──
+    function resetCookieConsent() {
+      document.cookie = 'cookie_consent=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      localStorage.removeItem('cookie_consent');
+      window.location.reload();
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+﻿# New KPI Hub File Decision Tree
+
+IF website file (.html, .css, .js):
+> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\website-source
+
+IF tool or weapon page:
+> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\tools
+
+IF production fix (.py, patch, script):
+> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\production-fixes
+
+IF screenshot or image reference:
+> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\screenshots-reference
+
+IF new or under review:
+> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\incoming-review
+
+IF config, API key, OAuth JSON, .env, or credential:
+> C:\Users\Admin\OneDrive\20-areas\22-security-and-access
+DO NOT put it in KPI Hub
+
+IF old package, export, or historical bundle:
+> C:\Users\Admin\OneDrive\40-archive\44-redundant-copies-and-zips\The KPI Hub
+
+IF unsure:
+> C:\Users\Admin\OneDrive\10-projects\11-The KPI Hub\incoming-review

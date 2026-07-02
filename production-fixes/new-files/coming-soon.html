@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coming Soon — The KPI Hub</title>
+  <meta name="description" content="This feature is coming soon to The KPI Hub." />
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #06071A;
+      --navy-2: #0d0f2b;
+      --gold: #E9A123;
+      --gold-dim: rgba(233,161,35,0.15);
+      --white: #F5F4EF;
+      --muted: rgba(245,244,239,0.45);
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .bg-grid {
+      position: fixed; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(233,161,35,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(233,161,35,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .glow {
+      position: fixed;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(233,161,35,0.07) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .container {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 2rem;
+      max-width: 520px;
+    }
+    .badge {
+      display: inline-block;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold-dim);
+      padding: 0.4rem 1rem;
+      border-radius: 2px;
+      margin-bottom: 2rem;
+      background: rgba(233,161,35,0.05);
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 7vw, 4.5rem);
+      font-weight: 400;
+      line-height: 1.1;
+      margin-bottom: 1.2rem;
+      color: var(--white);
+    }
+    h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    p {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+    .actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      background: var(--gold);
+      color: var(--navy);
+      padding: 0.75rem 1.8rem;
+      border-radius: 2px;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-ghost {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--white);
+      border: 1px solid rgba(245,244,239,0.2);
+      padding: 0.75rem 1.8rem;
+      border-radius: 2px;
+      transition: border-color 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+    .logo {
+      position: fixed; top: 1.5rem; left: 2rem;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--white);
+      text-decoration: none;
+      z-index: 10;
+    }
+    .logo span { color: var(--gold); }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="glow"></div>
+  <a href="/index.html" class="logo">The KPI<span>Hub</span></a>
+  <div class="container">
+    <div class="badge">Coming Soon</div>
+    <h1>Building <em>something</em><br>worth waiting for.</h1>
+    <p>This feature is under active development. Join the waitlist to be first in line when it drops — no spam, just signal.</p>
+    <div class="actions">
+      <a href="/index.html#waitlist" class="btn-primary">Join the Waitlist</a>
+      <a href="/index.html" class="btn-ghost">← Back to Home</a>
+    </div>
+  </div>
+</body>
+</html>
