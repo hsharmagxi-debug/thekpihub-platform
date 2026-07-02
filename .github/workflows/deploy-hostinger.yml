@@ -17,7 +17,9 @@ jobs:
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.HOSTINGER_SSH_KEY }}" > ~/.ssh/hostinger_key
+          cat > ~/.ssh/hostinger_key << 'EOF'
+          ${{ secrets.HOSTINGER_SSH_KEY }}
+          EOF
           chmod 600 ~/.ssh/hostinger_key
           ssh-keyscan -H ${{ secrets.HOSTINGER_HOST }} >> ~/.ssh/known_hosts
 
