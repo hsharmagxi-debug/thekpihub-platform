@@ -21,6 +21,8 @@ jobs:
           username: ${{ secrets.HOSTINGER_USER }}
           key: ${{ secrets.HOSTINGER_SSH_KEY }}
           passphrase: ${{ secrets.HOSTINGER_SSH_PASSPHRASE }}
+          port: 65002
+          timeout: 30s
           script: |
             cd ${{ secrets.HOSTINGER_PATH }}
             git fetch origin
