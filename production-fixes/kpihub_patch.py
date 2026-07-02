@@ -19,10 +19,10 @@ import os
 import re
 
 # ─── CONFIG — Replace these with your actual IDs ───────────────────────────
-GA_MEASUREMENT_ID      = "G-XXXXXXXXXX"      # Your Google Analytics 4 Measurement ID
-FORMSPREE_CONTACT_ID   = "REPLACE_CONTACT_FORM_ID"   # Formspree form ID for contact
-FORMSPREE_WAITLIST_ID  = "REPLACE_WAITLIST_FORM_ID"  # Formspree form ID for waitlist
-FORMSPREE_BLOG_ID      = "REPLACE_BLOG_FORM_ID"      # Formspree form ID for blog subscribe
+GA_MEASUREMENT_ID      = "G-DZPCCPEP1J"      # Your Google Analytics 4 Measurement ID
+FORMSPREE_CONTACT_ID   = "xvzdbban"          # Formspree form ID for contact
+FORMSPREE_WAITLIST_ID  = "xnjoevjk"          # Formspree form ID for waitlist
+FORMSPREE_BLOG_ID      = "xgojpynr"          # Formspree form ID for blog subscribe
 # ────────────────────────────────────────────────────────────────────────────
 
 PAGES = [
